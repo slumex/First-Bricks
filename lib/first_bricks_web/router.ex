@@ -5,7 +5,7 @@ defmodule FirstBricksWeb.Auth do
     Plug.BasicAuth.basic_auth(conn,
       username: Application.fetch_env!(:first_bricks, :username),
       password: Application.fetch_env!(:first_bricks, :password),
-      realm: "First Bricks"
+      realm: "Altreus Inventory Optimizer (AIO)"
     )
   end
 end

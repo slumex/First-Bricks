@@ -7,11 +7,11 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 root = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument("--output", type=Path, default=root.parent / "First-Bricks.zip")
+parser.add_argument("--output", type=Path, default=root.parent / "AIO.zip")
 args = parser.parse_args()
 entries = ["mix.exs", "mix.lock", "README.md", "VALIDATION.md", "Dockerfile",
            "docker-entrypoint.sh", "railway.toml", ".gitignore", ".dockerignore",
-           ".formatter.exs", ".gitattributes", "compose.yaml", "Demarrer-First-Bricks.cmd", "WINDOWS.md", "config", "lib", "priv", "test", "examples", "scripts"]
+           ".formatter.exs", ".gitattributes", "compose.yaml", "Demarrer-AIO.cmd", "Demarrer-First-Bricks.cmd", "WINDOWS.md", "config", "lib", "priv", "test", "examples", "scripts"]
 files = []
 for entry in entries:
     source = root / entry
@@ -22,7 +22,7 @@ for entry in entries:
         files.append(source)
 with ZipFile(args.output, "w", ZIP_DEFLATED) as archive:
     for path in sorted(files):
-        archive.write(path, Path("First-Bricks") / path.relative_to(root))
+        archive.write(path, Path("AIO") / path.relative_to(root))
 with ZipFile(args.output) as archive:
     assert archive.testzip() is None
     assert all(".dets" not in name and "/.env" not in name and "/.git/" not in name for name in archive.namelist())

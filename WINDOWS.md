@@ -1,13 +1,13 @@
-# Utiliser First Bricks sur Windows
+# Utiliser Altreus Inventory Optimizer (AIO) sur Windows
 
 Windows 11 x64 : installer **Docker Desktop AMD64**, puis ouvrir Docker Desktop. Si Docker propose WSL 2, terminer son installation et redémarrer Windows si demandé. Attendre que le moteur Docker soit démarré. Railway et un abonnement d’hébergement ne sont pas nécessaires.
 
 ## Première ouverture
 
-1. Télécharger la dernière archive `downloads/First-Bricks.zip` depuis GitHub.
+1. Télécharger la dernière archive `downloads/AIO.zip` depuis GitHub.
 2. Clic droit sur le ZIP → **Extraire tout**. Ne pas lancer les fichiers depuis l’aperçu du ZIP.
-3. Ouvrir le dossier extrait `First-Bricks` contenant `compose.yaml` et `Dockerfile`.
-4. Double-cliquer sur **Demarrer-First-Bricks.cmd**. Ce script fourni dans les sources vérifie Docker, construit l’application et l’ouvre dans le navigateur. L’accès Internet est nécessaire pour télécharger les dépendances et images la première fois; cela peut prendre plusieurs minutes. Si Windows affiche un avertissement de provenance, vérifier le fichier et son origine avant de décider de l’exécuter; il ne demande pas de privilèges administrateur.
+3. Ouvrir le dossier extrait `AIO` contenant `compose.yaml` et `Dockerfile`.
+4. Double-cliquer sur **Demarrer-AIO.cmd**. Ce script fourni dans les sources vérifie Docker, construit l’application et l’ouvre dans le navigateur. L’accès Internet est nécessaire pour télécharger les dépendances et images la première fois; cela peut prendre plusieurs minutes. Si Windows affiche un avertissement de provenance, vérifier le fichier et son origine avant de décider de l’exécuter; il ne demande pas de privilèges administrateur.
 5. Se connecter sur **http://localhost:4000** : utilisateur **admin**, mot de passe **local-first-bricks-2026**.
 
 Le conteneur est lié à l’adresse locale `127.0.0.1` : cette configuration est réservée à votre ordinateur. La release locale utilise HTTP et un cookie compatible avec HTTP. Les réglages HTTPS et secrets obligatoires de la release Railway restent actifs dans la cible de production.
@@ -45,11 +45,11 @@ docker compose stop
 docker compose start
 ```
 
-Pour rouvrir, vous pouvez aussi relancer `Demarrer-First-Bricks.cmd`. Docker Desktop doit être démarré. Sans modification du projet, les couches de compilation sont réutilisées.
+Pour rouvrir, vous pouvez aussi relancer `Demarrer-AIO.cmd`. Docker Desktop doit être démarré. Sans modification du projet, les couches de compilation sont réutilisées.
 
 ## Mettre à jour l’application
 
-Télécharger le nouveau ZIP, l’extraire dans un nouveau dossier puis lancer `Demarrer-First-Bricks.cmd` de ce nouveau dossier. Docker Compose reconstruit l’image et remplace le conteneur du projet `first-bricks`; le volume nommé `first-bricks-data` est réutilisé. Garder Docker Desktop ouvert et attendre la fin de la construction avant de rouvrir la page. Ne pas supprimer le volume pour effectuer une mise à jour.
+Télécharger le nouveau ZIP, l’extraire dans un nouveau dossier puis lancer `Demarrer-AIO.cmd` de ce nouveau dossier. Docker Compose reconstruit l’image et remplace le conteneur du projet `first-bricks`; le volume nommé `first-bricks-data` est réutilisé. Garder Docker Desktop ouvert et attendre la fin de la construction avant de rouvrir la page. Ne pas supprimer le volume pour effectuer une mise à jour.
 
 La limite d’import BSX est maintenant de **50 Mo**. Une sélection plus grosse est signalée dans le formulaire avant l’envoi. L’import d’un gros inventaire peut prendre plusieurs secondes; le bouton affiche « Importation en cours… ».
 

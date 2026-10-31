@@ -1,12 +1,12 @@
-# First Bricks
+# Altreus Inventory Optimizer (AIO)
 
-[Télécharger le ZIP des sources](https://github.com/slumex/First-Bricks/raw/refs/heads/main/downloads/First-Bricks.zip) · [Résultats de validation](VALIDATION.md)
+[Télécharger le ZIP des sources](https://github.com/slumex/First-Bricks/raw/refs/heads/main/downloads/AIO.zip) · [Résultats de validation](VALIDATION.md)
 
 Application Elixir/Phoenix en français pour répartir une réception vendor entre **Canada First Bricks (CFB)** et **USA First Bricks (UFB)**. Leurs plateformes sont **Altreus CFB** et **Altreus UFB**.
 
 ## Windows avec Docker Desktop
 
-Consulter [le guide Windows](WINDOWS.md). Extraire le ZIP puis lancer `Demarrer-First-Bricks.cmd`, ou exécuter `docker compose up --build -d` dans le dossier du projet. Ouvrir http://localhost:4000 (identifiant `admin`, mot de passe `local-first-bricks-2026`). Les données restent dans le volume Docker `first-bricks-data`.
+Consulter [le guide Windows](WINDOWS.md). Extraire le ZIP puis lancer `Demarrer-AIO.cmd`, ou exécuter `docker compose up --build -d` dans le dossier du projet. Ouvrir http://localhost:4000 (identifiant `admin`, mot de passe `local-first-bricks-2026`). Les données restent dans le volume Docker `first-bricks-data`.
 
 ## Démarrage local
 
