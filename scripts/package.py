@@ -11,7 +11,7 @@ parser.add_argument("--output", type=Path, default=root.parent / "First-Bricks.z
 args = parser.parse_args()
 entries = ["mix.exs", "mix.lock", "README.md", "VALIDATION.md", "Dockerfile",
            "docker-entrypoint.sh", "railway.toml", ".gitignore", ".dockerignore",
-           ".formatter.exs", "config", "lib", "priv", "test", "examples", "scripts"]
+           ".formatter.exs", ".gitattributes", "compose.yaml", "Demarrer-First-Bricks.cmd", "WINDOWS.md", "config", "lib", "priv", "test", "examples", "scripts"]
 files = []
 for entry in entries:
     source = root / entry

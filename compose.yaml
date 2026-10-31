@@ -1,0 +1,22 @@
+name: first-bricks
+services:
+  app:
+    build:
+      context: .
+      target: local
+    ports:
+      - "127.0.0.1:4000:4000"
+    volumes:
+      - first-bricks-data:/data
+    environment:
+      DATA_DIR: /data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:4000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+volumes:
+  first-bricks-data:
+    name: first-bricks-data

@@ -25,3 +25,13 @@ Les détails du format pris en charge, le démarrage local, les variables et le 
 - Restauration d’une sauvegarde réelle du volume, charge et volumes représentatifs du métier.
 
 Aucun déploiement externe ni import dans Altreus n’a été effectué. La livraison contient les sources et les instructions; elle ne contient aucun secret, inventaire réel ou fichier de données DETS.
+
+## Ajout du démarrage local Windows
+
+- Release `MIX_ENV=local` compilée sans avertissement et image Docker `local` construite.
+- Fichier Docker Compose validé; démarrage avec healthcheck réussi, accès HTTP sans redirection HTTPS, port publié uniquement sur l’interface locale.
+- Parcours HTTP complet sur la release locale : authentification, CSRF, trois imports, attributions, rejets de validation, originaux et deux exports réussis.
+- Cookie de session non sécurisé par TLS en mode local, et envoi automatique du cookie avec un formulaire CSRF vérifiés avec un gestionnaire de cookies HTTP.
+- Recréation du conteneur avec son volume : données et exports conservés.
+- Les 13 tests passent toujours; la compilation de production et son refus de démarrage sans secret sont confirmés.
+- Le lanceur `.cmd` est inclus avec des fins de ligne Windows; son exécution sur un PC Windows reste à confirmer. Les tests Docker ont été exécutés sur Linux.

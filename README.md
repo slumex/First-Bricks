@@ -4,6 +4,10 @@
 
 Application Elixir/Phoenix en français pour répartir une réception vendor entre **Canada First Bricks (CFB)** et **USA First Bricks (UFB)**. Leurs plateformes sont **Altreus CFB** et **Altreus UFB**.
 
+## Windows avec Docker Desktop
+
+Consulter [le guide Windows](WINDOWS.md). Extraire le ZIP puis lancer `Demarrer-First-Bricks.cmd`, ou exécuter `docker compose up --build -d` dans le dossier du projet. Ouvrir http://localhost:4000 (identifiant `admin`, mot de passe `local-first-bricks-2026`). Les données restent dans le volume Docker `first-bricks-data`.
+
 ## Démarrage local
 
 Prérequis : Elixir 1.18 / Erlang OTP 27 (les versions utilisées dans le Dockerfile), Git. Aucun Node.js, service de base de données ou compte Altreus requis.
