@@ -27,6 +27,46 @@ defmodule FirstBricksWeb.Controller do
     end
   end
 
+  def save(conn, %{"id" => id, "action" => "auto"} = params) do
+    state = Store.state()
+
+    case state.receptions[id] do
+      nil ->
+        not_found(conn)
+
+      reception ->
+        if params["revision"] != Integer.to_string(reception.revision) do
+          conn
+          |> put_status(422)
+          |> html(
+            View.reception(
+              state,
+              reception,
+              "Cette réception a été modifiée. Rechargez la page avant d’attribuer les stocks.",
+              params
+            )
+          )
+        else
+          case FirstBricks.Allocation.suggest(state, reception) do
+            {:ok, proposal} ->
+              html(
+                conn,
+                View.reception(
+                  state,
+                  reception,
+                  nil,
+                  proposal,
+                  "Proposition remplie. Vérifiez les quantités, puis cliquez sur Enregistrer la répartition. Rien n’a encore été sauvegardé."
+                )
+              )
+
+            {:error, message} ->
+              conn |> put_status(422) |> html(View.reception(state, reception, message, params))
+          end
+        end
+    end
+  end
+
   def save(conn, %{"id" => id} = params) do
     case Store.allocate(id, params["revision"], params["cfb"], params["ufb"]) do
       :ok ->

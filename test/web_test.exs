@@ -61,6 +61,75 @@ defmodule FirstBricks.WebTest do
     end
   end
 
+  test "bouton attribuer : proposition modifiable sans sauvegarde puis enregistrement et conflit" do
+    for site <- ["cfb", "ufb"] do
+      assert {:ok, nil} =
+               FirstBricks.Store.import(
+                 site,
+                 "stock.bsx",
+                 File.read!("examples/inventaire-#{site}.bsx")
+               )
+    end
+
+    {:ok, id} =
+      FirstBricks.Store.import(
+        "vendor",
+        "vendor.bsx",
+        File.read!("examples/reception-vendor.bsx")
+      )
+
+    path = "/receptions/#{id}"
+
+    assert :ok =
+             FirstBricks.Store.allocate(id, "0", %{"0" => "1", "1" => "0", "2" => "0"}, %{
+               "0" => "0",
+               "1" => "0",
+               "2" => "0"
+             })
+
+    saved = FirstBricks.Store.state().receptions[id]
+    {conn, token} = browser()
+    conn = post(conn, path, %{"_csrf_token" => token, "revision" => "1", "action" => "auto"})
+    body = html_response(conn, 200)
+    assert body =~ "Attribuer les stocks"
+    assert body =~ "Rien n’a encore été sauvegardé"
+    fields = Regex.scan(~r/name='(cfb|ufb)\[(\d+)\]'[^>]*value='(\d+)'/, body)
+
+    proposal =
+      Enum.reduce(fields, %{"cfb" => %{}, "ufb" => %{}}, fn [_, site, line, qty], acc ->
+        put_in(acc, [site, line], qty)
+      end)
+
+    assert proposal == %{
+             "cfb" => %{"0" => "10", "1" => "4", "2" => "0"},
+             "ufb" => %{"0" => "0", "1" => "0", "2" => "3"}
+           }
+
+    assert FirstBricks.Store.state().receptions[id] == saved
+    # L’utilisateur peut ajuster la proposition avant de sauvegarder.
+    proposal = proposal |> put_in(["cfb", "0"], "7") |> put_in(["ufb", "0"], "3")
+    [_, token] = Regex.run(~r/name='_csrf_token' value='([^']+)'/, body)
+
+    conn =
+      conn
+      |> recycle()
+      |> auth()
+      |> post(path, Map.merge(proposal, %{"_csrf_token" => token, "revision" => "1"}))
+
+    assert redirected_to(conn) =~ path
+    current = FirstBricks.Store.state().receptions[id]
+    assert current.allocations["0"] == %{"cfb" => 7, "ufb" => 3}
+
+    conn =
+      conn
+      |> recycle()
+      |> auth()
+      |> post(path, %{"_csrf_token" => token, "revision" => "1", "action" => "auto"})
+
+    assert html_response(conn, 422) =~ "Rechargez la page"
+    assert FirstBricks.Store.state().receptions[id] == current
+  end
+
   test "requête trop volumineuse renvoie une explication française" do
     body = String.duplicate("x", FirstBricks.BSX.max_bytes() + 1_000_001)
 

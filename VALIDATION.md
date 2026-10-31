@@ -46,3 +46,10 @@ Aucun déploiement externe ni import dans Altreus n’a été effectué. La livr
 - Le fichier réel CFB de l’utilisateur n’a pas été reçu; sa compatibilité XML reste à confirmer. Le test volumineux utilise des données synthétiques.
 
 Le test HTTP volumineux peut être reproduit sur une instance locale de test avec `scripts/large_import_smoke.py` et les variables `SMOKE_USERNAME`, `SMOKE_PASSWORD` (ainsi que `SMOKE_PORT` si le port diffère de 4000). Il ajoute un inventaire CFB synthétique à cette instance.
+
+## Bouton « Attribuer les stocks »
+
+- 20 tests réussis; compilation locale et production sans avertissement.
+- Tests des stocks inférieurs CFB/UFB, des égalités positives et nulles, des lots absents, des quatre composantes de la clé et de la quantité reçue nulle.
+- Vérification de l’obligation d’importer les deux inventaires et de l’utilisation des derniers inventaires.
+- Parcours contrôleur testé avec les exemples : proposition CFB/UFB de 10/0, 4/0 et 0/3; aucune sauvegarde au clic; ajustement manuel en 7/3 puis sauvegarde réussie; proposition depuis une révision périmée rejetée sans modification de la répartition.

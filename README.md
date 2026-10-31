@@ -33,6 +33,12 @@ Ouvrir le port 4000 de votre machine. En développement uniquement : utilisateur
 
 Les stocks affichés sont ceux des derniers imports au moment de la consultation. Enregistrer ou exporter une réception ne modifie jamais ces stocks et ne pousse aucune donnée vers Altreus. Les exports sont des **ajouts correspondant à la réception**, et non des inventaires complets. Ne pas réimporter plusieurs fois le même export dans Altreus sans vérifier son mode de fusion.
 
+## Bouton « Attribuer les stocks »
+
+Dans une réception, ce bouton remplit les deux champs de chaque ligne avec une proposition : toute la quantité reçue va à la boutique dont le stock courant est le plus bas. En cas d’égalité, CFB est prioritaire, notamment lorsque les deux stocks sont à zéro. Un lot absent compte pour zéro dans ce calcul, mais reste affiché « Absent ». Le rapprochement utilise toujours le type, l’identifiant, la couleur et l’état.
+
+Importer les deux inventaires avant d’utiliser ce bouton; un inventaire importé vide est autorisé. La proposition est calculée à partir des derniers imports et remplace les saisies du formulaire. Elle ne modifie ni les stocks ni la répartition enregistrée : vous pouvez l’ajuster, puis cliquer sur **Enregistrer la répartition**. Les exports utilisent toujours les quantités enregistrées. Un clic depuis une page dont la révision est périmée est rejeté.
+
 ## Format BSX et limites de compatibilité
 
 L’adaptateur prend en charge un sous-ensemble BrickStore XML UTF-8 : `BrickStoreXML/Inventory/Item`, avec `ItemTypeID`, `ItemID`, `ColorID`, `Condition` (`N` neuf / `U` usagé) et `Qty` entier positif ou nul, au maximum 2 147 483 647 par ligne. Types admis : P, M, S, B, G, I, O, C. La clé de rapprochement exacte est **type + identifiant + couleur + état**; aucune correspondance approximative. Les doublons de cette clé sont additionnés. L’ordre des lots est déterministe.

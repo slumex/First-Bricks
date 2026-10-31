@@ -33,7 +33,7 @@ Si le port 4000 est déjà occupé par une ancienne tentative `first-bricks-loca
 
 - Importer `examples/inventaire-cfb.bsx` dans Canada et `examples/inventaire-ufb.bsx` dans États-Unis.
 - Importer `examples/reception-vendor.bsx` comme réception vendor.
-- Saisir les attributions CFB et UFB, puis enregistrer avant de télécharger les deux BSX.
+- Cliquer sur **Attribuer les stocks** pour proposer la quantité reçue à la boutique au stock le plus bas (priorité CFB à égalité, lot absent compté comme zéro). Vérifier ou ajuster les quantités, puis cliquer sur **Enregistrer la répartition** avant de télécharger les deux BSX. Les deux inventaires doivent être importés.
 - La compatibilité avec les inventaires réels Altreus reste à valider. Les exemples sont synthétiques.
 
 ## Arrêter et rouvrir

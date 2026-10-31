@@ -62,7 +62,7 @@ defmodule FirstBricksWeb.View do
     "<form data-bsx-upload action='/imports' method='post' enctype='multipart/form-data'>#{token()}<input type='hidden' name='kind' value='#{kind}'><label>Fichier BSX (UTF-8, #{BSX.max_label()} maximum)<input type='file' name='file' accept='.bsx,.xml' data-max-bytes='#{BSX.max_bytes()}' data-max-label='#{BSX.max_label()}' required></label><p data-upload-error role='alert' hidden></p><button>#{button}</button></form>"
   end
 
-  def reception(state, r, error \\ nil, submitted \\ %{}) do
+  def reception(state, r, error \\ nil, submitted \\ %{}, notice \\ nil) do
     total = Enum.sum(Enum.map(r.rows, & &1["Qty"]))
     assigned = Enum.sum(Enum.map(r.allocations, fn {_, a} -> a["cfb"] + a["ufb"] end))
 
@@ -85,9 +85,11 @@ defmodule FirstBricksWeb.View do
 
     layout(r.name, """
     <a href="/">← Tableau de bord</a><div class="eyebrow">RÉCEPTION VENDOR</div><h1>#{e(r.name)}</h1>
-    <p class="lead">#{length(r.rows)} lots · #{total} pièces reçues · #{assigned} attribuées · #{total - assigned} à répartir</p>
-    #{alert(error)}<p>Stocks : dernier inventaire importé de chaque plateforme. « Absent » et « Présent · 0 » sont distincts. Les attributions ne modifient pas les inventaires de référence.</p>
+    <p class="lead">#{length(r.rows)} lots · #{total} pièces reçues · #{assigned} attribuées et enregistrées · #{total - assigned} à répartir</p>
+    #{alert(error)}#{if notice, do: "<div class='alert' role='status'>#{e(notice)}</div>", else: ""}<p>Stocks : dernier inventaire importé de chaque plateforme. « Absent » et « Présent · 0 » sont distincts. Les attributions ne modifient pas les inventaires de référence.</p>
     <form action="/receptions/#{r.id}" method="post">#{token()}<input type="hidden" name="revision" value="#{r.revision}">
+    <div class="actions"><button type="submit" name="action" value="auto" formnovalidate>Attribuer les stocks</button></div>
+    <p>Ce bouton remplit toutes les lignes et remplace les saisies : toute la quantité reçue va à la boutique au stock le plus bas. Lot absent = 0 pour ce calcul. À égalité, CFB est prioritaire, y compris à zéro. Vérifiez puis enregistrez la répartition.</p>
     <div class="table-wrap"><table><thead><tr><th>Pièce</th><th>Couleur</th><th>État</th><th>Stock CFB</th><th>Stock UFB</th><th>Reçu</th><th>Attribuer CFB</th><th>Attribuer UFB</th><th>Reste enregistré</th></tr></thead><tbody>#{rows}</tbody></table></div>
     <div class="actions"><button>Enregistrer la répartition</button><span>CFB + UFB ne doit pas dépasser la quantité reçue de chaque lot.</span></div></form>
     <section class="card"><h2>Exporter la répartition enregistrée</h2><p>Chaque fichier contient uniquement les quantités attribuées à sa destination. Enregistrez vos modifications avant de télécharger. Les quantités non attribuées sont exclues.</p><div class="actions"><a class="button secondary" href="/receptions/#{r.id}/exports/cfb">Télécharger CFB.bsx</a><a class="button secondary" href="/receptions/#{r.id}/exports/ufb">Télécharger UFB.bsx</a></div><p>Les exports sont des ajouts de stock, pas des inventaires complets. Vérifiez le mode d’import dans Altreus.</p></section>
