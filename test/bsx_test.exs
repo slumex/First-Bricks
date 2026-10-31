@@ -40,10 +40,23 @@ defmodule FirstBricks.BSXTest do
           "<!DOCTYPE x [<!ENTITY e SYSTEM 'file:///etc/passwd'>]>" <> wrap(item()),
           "<!ENTITY x 'y'>",
           "<Inventory/>",
-          String.duplicate("x", 5_000_001)
+          String.duplicate("x", BSX.max_bytes() + 1)
         ] do
       assert {:error, _} = BSX.parse(bad)
     end
+  end
+
+  @tag timeout: 60_000
+  test "inventaire valide de plus de 17 Mo accepté" do
+    rows =
+      for i <- 1..90_000, into: "" do
+        String.replace(item(), "<ItemID>3001</ItemID>", "<ItemID>large-#{i}</ItemID>")
+      end
+
+    xml = wrap(rows)
+    assert byte_size(xml) > 17_000_000
+    assert {:ok, parsed} = BSX.parse(xml)
+    assert length(parsed) == 90_000
   end
 
   test "inventaire vide autorisé et export vide valide" do

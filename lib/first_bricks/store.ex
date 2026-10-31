@@ -9,7 +9,7 @@ defmodule FirstBricks.Store do
     with {:ok, rows} <- BSX.parse(xml) do
       if kind == "vendor" and rows == [],
         do: {:error, "Réception sans pièce."},
-        else: GenServer.call(__MODULE__, {:import, kind, name, xml, rows})
+        else: GenServer.call(__MODULE__, {:import, kind, name, xml, rows}, 60_000)
     end
   end
 

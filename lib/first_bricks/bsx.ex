@@ -1,10 +1,14 @@
 defmodule FirstBricks.BSX do
   @moduledoc "Sous-ensemble BrickStore XML strict; aucune résolution d'entité externe."
   @fields ~w(ItemID ItemTypeID ColorID Condition ItemName ColorName Price Comments Remarks)
+  @max_bytes 50_000_000
+  def max_bytes, do: @max_bytes
+  def max_label, do: "50 Mo"
+
   def parse(xml) when is_binary(xml) do
     cond do
-      byte_size(xml) > 5_000_000 ->
-        {:error, "Fichier limité à 5 Mo."}
+      byte_size(xml) > @max_bytes ->
+        {:error, "Fichier limité à #{max_label()}."}
 
       not String.valid?(xml) ->
         {:error, "Le fichier doit être encodé en UTF-8."}

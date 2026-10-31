@@ -61,6 +61,20 @@ defmodule FirstBricks.WebTest do
     end
   end
 
+  test "requête trop volumineuse renvoie une explication française" do
+    body = String.duplicate("x", FirstBricks.BSX.max_bytes() + 1_000_001)
+
+    conn =
+      Plug.Test.conn(:post, "/imports", body)
+      |> put_req_header("content-type", "application/x-www-form-urlencoded")
+      |> FirstBricksWeb.UploadParser.call([])
+
+    assert conn.status == 413
+    assert conn.halted
+    assert conn.resp_body =~ "50 Mo"
+    assert conn.resp_body =~ "Retour au tableau de bord"
+  end
+
   test "requête sans jeton CSRF bloquée" do
     assert_error_sent(403, fn ->
       build_conn() |> auth() |> post("/imports", %{"kind" => "vendor"})

@@ -1,8 +1,8 @@
 defmodule FirstBricksWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :first_bricks
-  plug(Plug.Static, at: "/", from: :first_bricks, only: ~w(css))
+  plug(Plug.Static, at: "/", from: :first_bricks, only: ~w(css js))
   plug(Plug.RequestId)
-  plug(Plug.Parsers, parsers: [:urlencoded, :multipart], pass: [], length: 5_500_000)
+  plug(FirstBricksWeb.UploadParser)
   plug(Plug.MethodOverride)
   plug(Plug.Head)
 

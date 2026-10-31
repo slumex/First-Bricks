@@ -35,3 +35,14 @@ Aucun déploiement externe ni import dans Altreus n’a été effectué. La livr
 - Recréation du conteneur avec son volume : données et exports conservés.
 - Les 13 tests passent toujours; la compilation de production et son refus de démarrage sans secret sont confirmés.
 - Le lanceur `.cmd` est inclus avec des fins de ligne Windows; son exécution sur un PC Windows reste à confirmer. Les tests Docker ont été exécutés sur Linux.
+
+## Correction de la limite des imports BSX
+
+- Limite portée de 5 à 50 Mo par fichier; marge multipart de 1 Mo et lecture de requête jusqu’à 120 secondes.
+- 15 tests réussis, dont un inventaire valide de plus de 17 Mo et une réponse française HTTP 413 pour une requête trop grosse.
+- Compilation locale et production sans avertissement; release locale assemblée.
+- Import HTTP réel de 21 048 982 octets et 90 000 lots sur la release locale : accepté; téléchargement de l’original identique octet pour octet.
+- Contrôle JavaScript avant envoi : 17 Mo accepté, dépassement de 50 Mo refusé, message et état « Importation en cours… » vérifiés.
+- Le fichier réel CFB de l’utilisateur n’a pas été reçu; sa compatibilité XML reste à confirmer. Le test volumineux utilise des données synthétiques.
+
+Le test HTTP volumineux peut être reproduit sur une instance locale de test avec `scripts/large_import_smoke.py` et les variables `SMOKE_USERNAME`, `SMOKE_PASSWORD` (ainsi que `SMOKE_PORT` si le port diffère de 4000). Il ajoute un inventaire CFB synthétique à cette instance.

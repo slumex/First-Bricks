@@ -8,7 +8,7 @@ defmodule FirstBricksWeb.View do
 
   def layout(title, body) do
     """
-    <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>#{e(title)} · First Bricks</title><link rel="stylesheet" href="/css/app.css"></head>
+    <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>#{e(title)} · First Bricks</title><link rel="stylesheet" href="/css/app.css"><script src="/js/uploads.js" defer></script></head>
     <body><header><a class="brand" href="/">▦ FIRST BRICKS</a><span>Gestion des inventaires · Canada / USA</span></header><main>#{body}</main><footer>CFB : Canada First Bricks · UFB : USA First Bricks<br>Échanges BSX · Compatibilité Altreus à valider sur fichiers réels</footer></body></html>
     """
   end
@@ -59,7 +59,7 @@ defmodule FirstBricksWeb.View do
   end
 
   defp upload(kind, button) do
-    "<form action='/imports' method='post' enctype='multipart/form-data'>#{token()}<input type='hidden' name='kind' value='#{kind}'><label>Fichier BSX (UTF-8, 5 Mo maximum)<input type='file' name='file' accept='.bsx,.xml' required></label><button>#{button}</button></form>"
+    "<form data-bsx-upload action='/imports' method='post' enctype='multipart/form-data'>#{token()}<input type='hidden' name='kind' value='#{kind}'><label>Fichier BSX (UTF-8, #{BSX.max_label()} maximum)<input type='file' name='file' accept='.bsx,.xml' data-max-bytes='#{BSX.max_bytes()}' data-max-label='#{BSX.max_label()}' required></label><p data-upload-error role='alert' hidden></p><button>#{button}</button></form>"
   end
 
   def reception(state, r, error \\ nil, submitted \\ %{}) do

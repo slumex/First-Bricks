@@ -47,6 +47,12 @@ docker compose start
 
 Pour rouvrir, vous pouvez aussi relancer `Demarrer-First-Bricks.cmd`. Docker Desktop doit être démarré. Sans modification du projet, les couches de compilation sont réutilisées.
 
+## Mettre à jour l’application
+
+Télécharger le nouveau ZIP, l’extraire dans un nouveau dossier puis lancer `Demarrer-First-Bricks.cmd` de ce nouveau dossier. Docker Compose reconstruit l’image et remplace le conteneur du projet `first-bricks`; le volume nommé `first-bricks-data` est réutilisé. Garder Docker Desktop ouvert et attendre la fin de la construction avant de rouvrir la page. Ne pas supprimer le volume pour effectuer une mise à jour.
+
+La limite d’import BSX est maintenant de **50 Mo**. Une sélection plus grosse est signalée dans le formulaire avant l’envoi. L’import d’un gros inventaire peut prendre plusieurs secondes; le bouton affiche « Importation en cours… ».
+
 ## Données conservées sur votre PC
 
 Les données se trouvent dans le volume Docker nommé **first-bricks-data**; elles persistent après l’arrêt et la recréation du conteneur. Ne supprimez pas ce volume dans Docker Desktop, n’utilisez pas `docker compose down -v`, et ne réinitialisez pas Docker sans sauvegarde. Supprimer le dossier des sources ne sauvegarde ni ne supprime ce volume.
