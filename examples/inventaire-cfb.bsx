@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BrickStoreXML>
+<Inventory>
+  <Item><ItemID>3001</ItemID><ItemTypeID>P</ItemTypeID><ColorID>5</ColorID><Condition>N</Condition><Qty>0</Qty><ItemName>Brique 2 × 4</ItemName><ColorName>Rouge</ColorName><Price>0.12</Price><Remarks>Casier A</Remarks></Item>
+  <Item><ItemID>3020</ItemID><ItemTypeID>P</ItemTypeID><ColorID>11</ColorID><Condition>N</Condition><Qty>12</Qty><ItemName>Plaque 2 × 4</ItemName><ColorName>Noir</ColorName><Price>0.10</Price><Remarks>Casier C</Remarks></Item>
+</Inventory>
+</BrickStoreXML>

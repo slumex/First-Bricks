@@ -1,0 +1,7 @@
+.git
+_build
+deps
+data
+tmp
+.env
+*.zip
